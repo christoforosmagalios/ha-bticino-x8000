@@ -51,11 +51,14 @@ class CloudApiError(Exception):
 
 
 def _ssl_ctx() -> ssl.SSLContext:
-    """SSL context with verification disabled (same as the app)."""
-    ctx = ssl.create_default_context()
-    ctx.check_hostname = False
-    ctx.verify_mode = ssl.CERT_NONE
-    return ctx
+    """Create the SSL context used for BTicino Cloud requests.
+
+    Certificate and hostname verification stay enabled, so the credentials
+    are only sent to the genuine BTicino Cloud server.
+
+    @return An SSL context with default certificate and hostname verification.
+    """
+    return ssl.create_default_context()
 
 
 def login(username: str, password: str) -> str:
